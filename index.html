@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4f8">
+  <meta name="description" content="أداة محلية لتلوين طبقات الخطوط العربية المتوافقة، مع معاينة وتنزيل ملف الخط المعدّل.">
+  <title>رَقِيم — ألوان الخط العربي</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">انتقل إلى التطبيق</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="رَقِيم — الصفحة الرئيسية">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 36 36" fill="none"><path d="M8 24.5c4.2-1.6 7.2-4.7 9.1-9.2 1.9 4.5 4.9 7.6 9.1 9.2-4.2 1.6-7.2 4.7-9.1 9.2-1.9-4.5-4.9-7.6-9.1-9.2Z" fill="currentColor"/><circle cx="25.5" cy="8.5" r="3" fill="#0A806A"/><circle cx="9" cy="9" r="2" fill="#C8753D"/></svg>
+        </span>
+        <span><strong>رَقِيم</strong><small>ألوان الخط العربي</small></span>
+      </a>
+      <nav class="header-nav" aria-label="روابط الصفحة">
+        <a href="#how">طريقة العمل</a>
+        <a href="#privacy">الخصوصية</a>
+      </nav>
+      <div class="local-chip"><span class="status-dot"></span><span>المعالجة على جهازك</span></div>
+    </div>
+  </header>
+
+  <main id="main" class="page-shell">
+    <section class="intro" id="top">
+      <div class="eyebrow"><span class="eyebrow-line"></span> أداة عربية للخطوط الملونة</div>
+      <h1>لون الحروف، واترك <span>النقط والتشكيل</span> بلون آخر.</h1>
+      <p>ارفع خطًا يدعم طبقات ألوان واضحة، جرّب النتيجة على نصّك، ثم نزّل نسخة جديدة قابلة للتثبيت.</p>
+    </section>
+
+    <section class="workspace" aria-label="محرر ألوان الخط">
+      <section class="panel editor-panel" aria-labelledby="editor-title">
+        <div class="panel-heading">
+          <div>
+            <div class="step-label"><span>١</span> ابدأ بملف الخط</div>
+            <h2 id="editor-title">إعدادات التلوين</h2>
+          </div>
+          <span class="small-tag" id="format-tag">TTF / OTF</span>
+        </div>
+
+        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="اختر ملف خط TTF أو OTF، أو اسحبه إلى هنا">
+          <input id="font-file" type="file" accept=".ttf,.otf,font/ttf,font/otf,application/font-sfnt" hidden>
+          <span class="upload-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 15.5V4m0 0L7.7 8.3M12 4l4.3 4.3M5 14.5v3.3A2.2 2.2 0 0 0 7.2 20h9.6a2.2 2.2 0 0 0 2.2-2.2v-3.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="drop-copy"><strong id="upload-title">اسحب ملف الخط إلى هنا</strong><span id="upload-subtitle">أو اختره من جهازك — TTF أو OTF، حتى 32 ميغابايت</span></span>
+          <button class="button button-quiet" id="choose-file" type="button">اختيار ملف</button>
+        </div>
+        <div id="file-summary" class="file-summary" hidden>
+          <span class="file-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.8h7l4 4v12.4H7a2 2 0 0 1-2-2V5.8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6"/><path d="M14 4v4h4M8.5 13h7m-7 3h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+          <span class="file-copy"><strong id="file-name">—</strong><small id="file-detail">—</small></span>
+          <button class="remove-file" id="remove-file" type="button" aria-label="إزالة ملف الخط" title="إزالة الملف"><svg viewBox="0 0 24 24" fill="none"><path d="m7 7 10 10M17 7 7 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        </div>
+
+        <div id="status" class="status-box status-neutral" role="status" aria-live="polite">
+          <span class="status-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"/><path d="M12 11v5m0-8h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <span id="status-text">ارفع ملفًا لنفحص جداول الألوان والفصل بين جسم الحرف والعلامات.</span>
+        </div>
+
+        <div id="editor-controls" class="editor-controls" aria-disabled="true">
+          <div class="control-heading"><span>٢</span><h3>اختر اللونين</h3><span class="control-note">تظهر التغييرات في المعاينة فورًا</span></div>
+          <div class="color-grid">
+            <label class="color-control" for="main-hex">
+              <span class="color-label">الحروف الأساسية</span>
+              <span class="color-input-row"><input id="main-color" type="color" value="#352b42" aria-label="لون الحروف الأساسية"><input id="main-hex" type="text" value="#352B42" inputmode="text" maxlength="7" autocomplete="off" aria-label="قيمة لون الحروف بصيغة hex"></span>
+            </label>
+            <label class="color-control" for="mark-hex">
+              <span class="color-label">النقط والتشكيل</span>
+              <span class="color-input-row"><input id="mark-color" type="color" value="#d27749" aria-label="لون النقط والتشكيل"><input id="mark-hex" type="text" value="#D27749" inputmode="text" maxlength="7" autocomplete="off" aria-label="قيمة لون النقط والتشكيل بصيغة hex"></span>
+            </label>
+          </div>
+          <p class="hint">يشمل اللون الثاني كذلك أي علامات أو زخارف غير أساسية موجودة في طبقات الخط المفصولة.</p>
+
+          <label class="field-label" for="font-name">اسم النسخة المعدّلة <span>سيُضاف إلى بيانات الخط</span></label>
+          <input id="font-name" class="text-field" type="text" maxlength="80" value="" autocomplete="off" disabled>
+          <p class="hint">سيبقى ملفك الأصلي كما هو، والاسم الجديد يمنع الخلط بين النسختين عند التثبيت.</p>
+
+          <button id="download" class="button button-primary button-download" type="button" disabled>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v11m0 0 4.2-4.2M12 15l-4.2-4.2M5 16.5v2A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            تنزيل الخط المعدّل
+          </button>
+          <div id="export-status" class="export-status" aria-live="polite"></div>
+        </div>
+        <div class="license-note"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5 19 6v5.5c0 4.1-2.8 7.3-7 9-4.2-1.7-7-4.9-7-9V6l7-2.5Z" stroke="currentColor" stroke-width="1.6"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>نحافظ على بيانات الترخيص والتشكيل الأصلي؛ لا نعيد رسم الحروف.</span></div>
+      </section>
+
+      <section class="panel preview-panel" aria-labelledby="preview-title">
+        <div class="preview-top">
+          <div>
+            <div class="step-label"><span>٣</span> راجع قبل التنزيل</div>
+            <h2 id="preview-title">معاينة الخط</h2>
+          </div>
+          <span id="preview-status" class="preview-status"><span class="status-dot"></span> بانتظار ملف</span>
+        </div>
+        <div class="preview-stage">
+          <div class="preview-ornament ornament-a" aria-hidden="true"></div>
+          <div class="preview-ornament ornament-b" aria-hidden="true"></div>
+          <div class="preview-center">
+            <div id="preview-font-label" class="preview-font-label">معاينة حية</div>
+            <div id="preview-text" class="preview-text" lang="ar" dir="rtl">تَجْرِبَةُ اللُّغَةِ العَرَبِيَّةِ<br>الحُرُوفُ وَالنُّقَطُ وَالتَّشْكِيلُ</div>
+            <div class="preview-baseline" aria-hidden="true"><span></span><span></span><span></span></div>
+          </div>
+          <div class="preview-caption"><span class="preview-chip"><i class="swatch main-swatch"></i> الحروف</span><span class="preview-chip"><i class="swatch mark-swatch"></i> النقط والتشكيل</span></div>
+        </div>
+        <label class="field-label preview-input-label" for="sample-text">نص المعاينة <span>يمكنك الكتابة أو اللصق</span></label>
+        <textarea id="sample-text" class="text-field preview-input" rows="2" spellcheck="false">تَجْرِبَةُ اللُّغَةِ العَرَبِيَّةِ
+الحُرُوفُ وَالنُّقَطُ وَالتَّشْكِيلُ</textarea>
+        <div class="feature-row"><span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4.2 4.2L19 6.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>معاينة تشكيل عربية</span><span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4.2 4.2L19 6.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>تصدير الملف نفسه</span></div>
+      </section>
+    </section>
+
+    <section class="info-grid" id="how" aria-label="معلومات عن الأداة">
+      <article class="info-card">
+        <span class="info-number">01</span>
+        <h3>نفحص البنية، لا الاسم فقط</h3>
+        <p>لا يظهر خيار فصل الألوان إلا إذا وجدنا طبقات COLR/CPAL واضحة وأسماء تدل على العلامات فعلًا.</p>
+      </article>
+      <article class="info-card" id="privacy">
+        <span class="info-number">02</span>
+        <h3>ملفك لا يُرفع</h3>
+        <p>القراءة والتعديل والتصدير تتم في متصفحك. لا نرسل الخط إلى خادم، ولا نحتفظ بنسخة منه.</p>
+      </article>
+      <article class="info-card">
+        <span class="info-number">03</span>
+        <h3>التوافق يختلف بين البرامج</h3>
+        <p>الخط الناتج يستخدم COLR/CPAL v0؛ قد تعرضه بعض البرامج بلون واحد أو تحتاج تحويل النص إلى أشكال.</p>
+      </article>
+    </section>
+    <footer class="site-footer"><span>رَقِيم</span><span>أداة محلية لتجربة ألوان الخطوط العربية</span><span class="footer-lock"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" stroke="currentColor" stroke-width="1.6"/></svg> خصوصيتك أولًا</span></footer>
+  </main>
+</body>
+</html>
